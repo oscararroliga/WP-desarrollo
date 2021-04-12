@@ -1,38 +1,34 @@
 <?php
-remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
-
-remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart');
-
-
-//
+//ACTIVAR MODO CATALOGO EN WOOCOMMERCE || SIN OPCION DE COMPRA AGREGAR AL CARRITO || MUESTRA PRECIO Y DESCRIPCION DEL PRODUCTO
 
 add_action( 'woocommerce_single_product_summary', 'remove_add_to_cart_buttons' ,1 );
 
     function remove_add_to_cart_buttons() {
-      if( !is_product_category('deportivos')) {}
+      if( has_term( array('cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6', 'cat7', 'cat8'), 'product_cat') ){
         remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 ); 
-     
+	  }
     }
-
+    
+//QUITAR BOTON EN DESCRIPCION DEL PRODUCTO
 
 
 add_action( 'woocommerce_after_shop_loop_item', 'quitar' ,1 );
 
     function quitar() {
-      if( !is_product_category('deportivos')) { 
+      if( !is_product_category('familiares')) { 
         remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
+        
       }
     }
 
+//MENSAJE NO HAY FORMAS DE PAGO || PERMITIR A LOS CLIENTES REALIZAR LA ORDEN POR OTRO METODO 
 
-    //CAMBIAR EL TEXTO EN EL MENSAJE NO HAY METODOS DE PAGO
+add_filter( 'woocommerce_no_available_payment_methods_message', 'your_custom_function_name_here' );
 
-    add_filter( 'woocommerce_no_available_payment_methods_message', 'your_custom_function_name_here' );
-
-    function your_custom_function_name_here( $content ) {
-      //your changes here
-      $content = 'Disculpe los inconvenientes, las compras no estan habilitadas por el momento desde nuestro sitio web. 
-      Si desea realizar pedido puede escribirnos vía <a href="https://wa.me/50575008888">WhatsApp </a> y con gusto tomaremos su orden.';
+function your_custom_function_name_here( $content ) {
+      //Mensaje a mostrar cuando se deshabilita la pasarela de pago
+      $content = 'Disculpe los inconvenientes, por el momento las compras no estan habilitadas desde nuestro sitio web. 
+      Si desea realizar pedido puede escribirnos vía <a href="https://wa.me/50575008888">WhatsApp</a>  y con gusto tomaremos su orden.';
       // Returns the content.
       return $content;
   }
