@@ -1,0 +1,38 @@
+<?php
+remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
+
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart');
+
+
+//
+
+add_action( 'woocommerce_single_product_summary', 'remove_add_to_cart_buttons' ,1 );
+
+    function remove_add_to_cart_buttons() {
+      if( !is_product_category('deportivos')) {}
+        remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 ); 
+     
+    }
+
+
+
+add_action( 'woocommerce_after_shop_loop_item', 'quitar' ,1 );
+
+    function quitar() {
+      if( !is_product_category('deportivos')) { 
+        remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
+      }
+    }
+
+
+    //CAMBIAR EL TEXTO EN EL MENSAJE NO HAY METODOS DE PAGO
+
+    add_filter( 'woocommerce_no_available_payment_methods_message', 'your_custom_function_name_here' );
+
+    function your_custom_function_name_here( $content ) {
+      //your changes here
+      $content = 'Disculpe los inconvenientes, las compras no estan habilitadas por el momento desde nuestro sitio web. 
+      Si desea realizar pedido puede escribirnos vía <a href="https://wa.me/50575008888">WhatsApp </a> y con gusto tomaremos su orden.';
+      // Returns the content.
+      return $content;
+  }
