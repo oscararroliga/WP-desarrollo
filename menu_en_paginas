@@ -1,0 +1,17 @@
+<?php
+
+//AGREGAR UN MENU VIA SHORTCODE
+function shortcode_menu_paginas($atts)
+  {
+      
+      $atts = array_change_key_case((array)$atts, CASE_LOWER);
+      $atts = array_map('sanitize_text_field', $atts);
+      // Atributos del menú: nombre, clase css, etc
+      $menu_name = $atts['name'];
+      $menu_class = $atts['class'];
+      return wp_nav_menu(array(
+          'menu' => esc_attr($menu_name),
+          'menu_class' => 'menu ' . esc_attr($menu_class),
+          'echo' => false));
+  }
+  add_shortcode('menu-paginas', 'shortcode_menu_paginas');
